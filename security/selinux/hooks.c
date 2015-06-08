@@ -426,6 +426,7 @@ next_inode:
 				list_entry(sbsec->isec_head.next,
 					   struct inode_security_struct, list);
 		struct inode *inode = isec->inode;
+		list_del_init(&isec->list);
 		spin_unlock(&sbsec->isec_lock);
 		inode = igrab(inode);
 		if (inode) {
@@ -434,7 +435,6 @@ next_inode:
 			iput(inode);
 		}
 		spin_lock(&sbsec->isec_lock);
-		list_del_init(&isec->list);
 		goto next_inode;
 	}
 	spin_unlock(&sbsec->isec_lock);
@@ -3830,6 +3830,11 @@ static int sock_has_perm(struct task_struct *task, struct sock *sk, u32 perms)
 	struct selinux_audit_data sad = {0,};
 	struct lsm_network_audit net = {0,};
 	u32 tsid = task_sid(task);
+
+        if (unlikely(!sksec)) {
+        pr_warn("SELinux: sksec is NULL, socket is already freed\n");
+        return -EINVAL;
+ }
 
 	if (sksec->sid == SECINITSID_KERNEL)
 		return 0;
