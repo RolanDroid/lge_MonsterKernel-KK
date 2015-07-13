@@ -190,7 +190,7 @@ esac
 
 # Menu - Start
 
-customkernel=THLGKernel
+customkernel=MonsterKernel
 export ARCH=arm
 
 buildsh() {
