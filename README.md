@@ -1,4 +1,9 @@
 # MonsterKernel-KK
-source code for L5 and L7 
 
-#MonsterKernel (MK) is custom kernel for all ROMs based on AOSP or CyanogenMod
+source code for:
+#LG OPTIMUS L5
+#LG OPTIMUS L7
+#LG OPTIMUS L3II
+#LG OPTIMUS L1II
+
+MonsterKernel (MK) is custom kernel for all ROMs based on AOSP or CyanogenMod
