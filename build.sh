@@ -1,7 +1,6 @@
 #!/bin/bash
 # Base by cybojenix <anthonydking@gmail.com>
-# RolanDroid editor for e610/12 | p700/05 <rolandosimoncelli8@gmail.com>
-# ReWriten by Caio99BR Oliveira aka RolanDroid99BR <RolanDroidoliveirafarias0@gmail.com>
+# ReWriten by Caio Oliveira aka Caio99BR <caiooliveirafarias0@gmail.com>
 # Rashed for the base of zip making
 # And the internet for filling in else where
 
@@ -34,16 +33,22 @@ maindevicecheck=""
 # Main Process - Start
 
 maindevice() {
-echo "1) L5 e610"
-echo "2) L5 e612"
-echo "3) L7 p700"
-echo "4) L7 p705"
+echo "1) L1 II Single/Dual/Tri"
+echo "2) L3 II Single"
+echo "3) L3 II Dual"
+echo "4) L5 NFC"
+echo "5) L5 NoNFC"
+echo "6) L7 NFC"
+echo "7) L7 NoNFC"
 read -p "Choice: " -n 1 -s choice
 case "$choice" in
-	1 ) target="L5-"; variant="Single"; echo "$choice - $target$variant"; make cyanogenmod_m4_defconfig &> /dev/null; maindevicecheck="On";;
-	2 ) target="L5e612-"; variant="Single"; echo "$choice - $target$variant"; make cyanogenmod_m4_nonfc_defconfig &> /dev/null; maindevicecheck="On";;
-	3 ) target="L7-"; variant="Single"; echo "$choice - $target$variant"; make cyanogenmod_u0_defconfig &> /dev/null; maindevicecheck="On";;
-	4 ) target="L7p705-"; variant="Single"; echo "$choice - $target$variant"; make cyanogenmod_u0_nonfc_defconfig &> /dev/null; maindevicecheck="On";;
+	1 ) target="L1II-"; variant="SDT"; echo "$choice - $target$variant"; make cyanogenmod_v1_defconfig &> /dev/null; maindevicecheck="On";;
+	2 ) target="L3II-"; variant="Single"; echo "$choice - $target$variant"; make cyanogenmod_vee3_defconfig &> /dev/null; maindevicecheck="On";;
+	3 ) target="L3II-"; variant="Dual"; echo "$choice - $target$variant"; make cyanogenmod_vee3ds_defconfig &> /dev/null; maindevicecheck="On";;
+	4 ) target="L5-"; variant="Single"; echo "$choice - $target$variant"; make cyanogenmod_m4_defconfig &> /dev/null; maindevicecheck="On";;
+	5 ) target="L5NoNFC-"; variant="Single"; echo "$choice - $target$variant"; make cyanogenmod_m4_nonfc_defconfig &> /dev/null; maindevicecheck="On";;
+	6 ) target="L7-"; variant="Single"; echo "$choice - $target$variant"; make cyanogenmod_u0_defconfig &> /dev/null; maindevicecheck="On";;
+	7 ) target="L7NoNFC-"; variant="Single"; echo "$choice - $target$variant"; make cyanogenmod_u0_nonfc_defconfig &> /dev/null; maindevicecheck="On";;
 	* ) echo "$choice - This option is not valid"; sleep 2;;
 esac
 }
@@ -52,18 +57,26 @@ maintoolchain() {
 if [ -d ../android_prebuilt_toolchains ]; then
 	echo "1) 4.7 Google GCC"
 	echo "2) 4.8 Google GCC"
+	echo "3) 4.6.4 Linaro GCC"
+	echo "3) 4.7.4 Linaro GCC"
+	echo "3) 4.8.4 Linaro GCC"
+	echo "3) 4.9.3 Linaro GCC"
 	read -p "Choice: " -n 1 -s toolchain
 	case "$toolchain" in
-		1 ) export CROSS_COMPILE="../toolchains/arm-eabi-4.7/bin/arm-eabi-";;
-		2 ) export CROSS_COMPILE="../toolchains/arm-eabi-4.8/bin/arm-eabi-";;
+		1 ) export CROSS_COMPILE="../android_prebuilt_toolchains/arm-eabi-4.7/bin/arm-eabi-";;
+		2 ) export CROSS_COMPILE="../android_prebuilt_toolchains/arm-eabi-4.8/bin/arm-eabi-";;
+		3 ) export CROSS_COMPILE="../android_prebuilt_toolchains/arm-unknown-linux-gnueabi-linaro_4.6.4-2013.05/bin/arm-unknown-linux-gnueabi-";;
+		4 ) export CROSS_COMPILE="../android_prebuilt_toolchains/arm-unknown-linux-gnueabi-linaro_4.7.4-2013.12/bin/arm-unknown-linux-gnueabi-";;
+		5 ) export CROSS_COMPILE="../android_prebuilt_toolchains/arm-linux-gnueabi-linaro_4.8.4-2014.11/bin/arm-linux-gnueabi-";;
+		6 ) export CROSS_COMPILE="../android_prebuilt_toolchains/arm-cortex-linux-gnueabi-linaro_4.9.3-2015.03/bin/arm-cortex-linux-gnueabi-";;
 		* ) echo "$toolchain - This option is not valid"; sleep 2;;
 	esac
 else
-	echo "Script says: You don't have Prebuilt Toolchains"
+	echo "Script says: You don't have TeamVee Prebuilt Toolchains"
 	echo ""
 	echo "Script says: Please specify a location"
 	echo "Script says: and the prefix of the chosen toolchain at the end"
-	echo "RolanDroid says: GCC 4.8 ex. ../arm-eabi-4.8/bin/arm-eabi--"
+	echo "Caio99BR says: GCC 4.6 ex. ../arm-eabi-4.6/bin/arm-eabi-"
 	read -p "Place: " CROSS_COMPILE
 fi
 }
@@ -86,11 +99,23 @@ fi
 }
 
 zippackage() {
+if [ "$variant" == "Dual" ]; then
+	todual
+fi
+
+if [ "$target" == "L1II-" ]; then
+	tol1ii
+fi
+
+if [ "$target" == "L3II-" ]; then
+	tol3ii
+fi
+
 if [ "$target" == "L7-" ]; then
 	tol7
 fi
 
-if [ "$target" == "L7p705-" ]; then
+if [ "$target" == "L7NoNFC-" ]; then
 	tol7
 fi
 
@@ -103,7 +128,7 @@ cd zip-creator
 zip -r $zipfile * -x */.gitignore* &> /dev/null
 cd ..
 
-if [ "$target" == "L7p705-" ]; then
+if [ "$target" == "L7NoNFC-" ]; then
 	ofl7
 fi
 
@@ -111,6 +136,17 @@ if [ "$target" == "L7-" ]; then
 	ofl7
 fi
 
+if [ "$target" == "L3II-" ]; then
+	ofl3ii
+fi
+
+if [ "$target" == "L1II-" ]; then
+	ofl1ii
+fi
+
+if [ "$variant" == "Dual" ]; then
+	tosingle
+fi
 zippackagecheck="Done"
 cleanzipcheck=""
 }
@@ -123,6 +159,31 @@ mv zip-creator/META-INF/com/google/android/updater-script-temp zip-creator/META-
 
 tosingle() {
 sed 's/Dual/Single/' zip-creator/META-INF/com/google/android/updater-script > zip-creator/META-INF/com/google/android/updater-script-temp
+rm zip-creator/META-INF/com/google/android/updater-script
+mv zip-creator/META-INF/com/google/android/updater-script-temp zip-creator/META-INF/com/google/android/updater-script
+}
+
+tol1ii() {
+sed 's/m4/vee3/' zip-creator/tools/kernel_flash.sh > zip-creator/tools/kernel_flash-temp.sh
+rm zip-creator/tools/kernel_flash.sh
+mv zip-creator/tools/kernel_flash-temp.sh zip-creator/tools/kernel_flash.sh
+sed 's/14/15/' zip-creator/tools/kernel_flash.sh > zip-creator/tools/kernel_flash-temp.sh
+rm zip-creator/tools/kernel_flash.sh
+mv zip-creator/tools/kernel_flash-temp.sh zip-creator/tools/kernel_flash.sh
+sed 's/L5/L1 II/' zip-creator/META-INF/com/google/android/updater-script > zip-creator/META-INF/com/google/android/updater-script-temp
+rm zip-creator/META-INF/com/google/android/updater-script
+mv zip-creator/META-INF/com/google/android/updater-script-temp zip-creator/META-INF/com/google/android/updater-script
+
+}
+
+ofl1ii() {
+sed 's/vee3/m4/' zip-creator/tools/kernel_flash.sh > zip-creator/tools/kernel_flash-temp.sh
+rm zip-creator/tools/kernel_flash.sh
+mv zip-creator/tools/kernel_flash-temp.sh zip-creator/tools/kernel_flash.sh
+sed 's/15/14/' zip-creator/tools/kernel_flash.sh > zip-creator/tools/kernel_flash-temp.sh
+rm zip-creator/tools/kernel_flash.sh
+mv zip-creator/tools/kernel_flash-temp.sh zip-creator/tools/kernel_flash.sh
+sed 's/L1 II/L5/' zip-creator/META-INF/com/google/android/updater-script > zip-creator/META-INF/com/google/android/updater-script-temp
 rm zip-creator/META-INF/com/google/android/updater-script
 mv zip-creator/META-INF/com/google/android/updater-script-temp zip-creator/META-INF/com/google/android/updater-script
 }
@@ -199,7 +260,7 @@ kernelpatchlevel=`cat Makefile | grep PATCHLEVEL | cut -c 14- | head -1`
 kernelsublevel=`cat Makefile | grep SUBLEVEL | cut -c 12- | head -1`
 kernelname=`cat Makefile | grep NAME | cut -c 8- | head -1`
 clear
-echo "RolanDroid says: Simple $customkernel Build Script."
+echo "Caio99BR says: Simple $customkernel Build Script."
 echo "This is an open source script, feel free to use, edit and share it."
 echo "Linux Kernel $kernelversion.$kernelpatchlevel.$kernelsublevel - $kernelname"
 echo
@@ -246,15 +307,23 @@ case $x in
 	4) echo "$x - Toolchain choice"; maintoolchain; buildsh;;
 	5) if [ -f .config ]; then
 		echo "$x - Building Kernel..."; buildprocess; buildsh
+	else
+		echo "$x - This option is not valid"; sleep 2; buildsh
 	fi;;
 	6) if [ -f arch/arm/boot/zImage ]; then
 		echo "$x - Ziping Kernel..."; zippackage; buildsh
+	else
+		echo "$x - This option is not valid"; sleep 2; buildsh
 	fi;;
 	7) if [ -f zip-creator/*.zip ]; then
 		echo "$x - Coping Kernel..."; adbcopy; buildsh
+	else
+		echo "$x - This option is not valid"; sleep 2; buildsh
 	fi;;
 	8) if [ "$adbcopycheck" == "Done" ]; then
 		echo "$x - Rebooting $target$variant..."; adb reboot recovery; buildsh
+	else
+		echo "$x - This option is not valid"; sleep 2; buildsh
 	fi;;
 	q) echo "Ok, Bye!"; zippackagecheck="";;
 	*) echo "$x - This option is not valid"; sleep 2; buildsh;;
@@ -293,4 +362,3 @@ else
 
 	buildsh
 fi
-
