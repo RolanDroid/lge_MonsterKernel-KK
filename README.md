@@ -1,6 +1,6 @@
 # MonsterKernel-KK
 
-source codefor:
+source code for:
 #LG OPTIMUS L5
 #LG OPTIMUS L7
 #LG OPTIMUS L3II
