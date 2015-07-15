@@ -1,6 +1,7 @@
 #!/bin/bash
 # Base by cybojenix <anthonydking@gmail.com>
-# ReWriten by Caio Oliveira aka Caio99BR <caiooliveirafarias0@gmail.com>
+# ReWriten by Caio Oliveira aka Caio99BR <Caiooliveirafarias0@gmail.com>
+# RolanDroid editor for MonsterKernel
 # Rashed for the base of zip making
 # And the internet for filling in else where
 
@@ -63,12 +64,12 @@ if [ -d ../android_prebuilt_toolchains ]; then
 	echo "3) 4.9.3 Linaro GCC"
 	read -p "Choice: " -n 1 -s toolchain
 	case "$toolchain" in
-		1 ) export CROSS_COMPILE="../android_prebuilt_toolchains/arm-eabi-4.7/bin/arm-eabi-";;
-		2 ) export CROSS_COMPILE="../android_prebuilt_toolchains/arm-eabi-4.8/bin/arm-eabi-";;
-		3 ) export CROSS_COMPILE="../android_prebuilt_toolchains/arm-unknown-linux-gnueabi-linaro_4.6.4-2013.05/bin/arm-unknown-linux-gnueabi-";;
-		4 ) export CROSS_COMPILE="../android_prebuilt_toolchains/arm-unknown-linux-gnueabi-linaro_4.7.4-2013.12/bin/arm-unknown-linux-gnueabi-";;
-		5 ) export CROSS_COMPILE="../android_prebuilt_toolchains/arm-linux-gnueabi-linaro_4.8.4-2014.11/bin/arm-linux-gnueabi-";;
-		6 ) export CROSS_COMPILE="../android_prebuilt_toolchains/arm-cortex-linux-gnueabi-linaro_4.9.3-2015.03/bin/arm-cortex-linux-gnueabi-";;
+		1 ) export CROSS_COMPILE="../toolchains/arm-eabi-4.7/bin/arm-eabi-";;
+		2 ) export CROSS_COMPILE="../toolchains/arm-eabi-4.8/bin/arm-eabi-";;
+		3 ) export CROSS_COMPILE="../toolchains/arm-unknown-linux-gnueabi-linaro_4.6.4-2013.05/bin/arm-unknown-linux-gnueabi-";;
+		4 ) export CROSS_COMPILE="../toolchains/arm-unknown-linux-gnueabi-linaro_4.7.4-2013.12/bin/arm-unknown-linux-gnueabi-";;
+		5 ) export CROSS_COMPILE="../toolchains/arm-linux-gnueabi-linaro_4.8.4-2014.11/bin/arm-linux-gnueabi-";;
+		6 ) export CROSS_COMPILE="../toolchains/arm-cortex-linux-gnueabi-linaro_4.9.3-2015.03/bin/arm-cortex-linux-gnueabi-";;
 		* ) echo "$toolchain - This option is not valid"; sleep 2;;
 	esac
 else
@@ -76,7 +77,7 @@ else
 	echo ""
 	echo "Script says: Please specify a location"
 	echo "Script says: and the prefix of the chosen toolchain at the end"
-	echo "Caio99BR says: GCC 4.6 ex. ../arm-eabi-4.6/bin/arm-eabi-"
+	echo "RolanDroid says: GCC 4.8 ex. ../arm-eabi-4.8/bin/arm-eabi-"
 	read -p "Place: " CROSS_COMPILE
 fi
 }
@@ -260,7 +261,7 @@ kernelpatchlevel=`cat Makefile | grep PATCHLEVEL | cut -c 14- | head -1`
 kernelsublevel=`cat Makefile | grep SUBLEVEL | cut -c 12- | head -1`
 kernelname=`cat Makefile | grep NAME | cut -c 8- | head -1`
 clear
-echo "Caio99BR says: Simple $customkernel Build Script."
+echo "RolanDroid says: Simple $customkernel Build Script."
 echo "This is an open source script, feel free to use, edit and share it."
 echo "Linux Kernel $kernelversion.$kernelpatchlevel.$kernelsublevel - $kernelname"
 echo
