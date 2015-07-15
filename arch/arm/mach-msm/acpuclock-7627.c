@@ -545,7 +545,6 @@ static struct clkctl_acpu_speed pll0_960_pll1_589_pll2_1200_pll4_1008[] = {
 	{ 1, 1250000, ACPU_PLL_2, 2, 3, 156250, 3, 7, 240000 },
 #endif
 	{ 0 }
-	{ 0 }
 };
 
 /* 7625a PLL2 @ 1200MHz with GSM capable modem */
