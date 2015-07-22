@@ -30,32 +30,32 @@ echo "${bldgrn}Pick variant...${txtrst}"
 select choice in e610 e612 p700 p705 L1II vee3 vee3ds
 do
 case "$choice" in
-	"L5 e610")
-		export target="L5 e610"
+	"e610")
+		export target="e610"
 		export defconfig="cyanogenmod_m4_defconfig"
 		break;;
-	"L5 e612")
-		export target="L5 e612"
+	"e612")
+		export target="e612"
 		export defconfig="cyanogenmod_m4_nonfc_defconfig"
 		break;;
-	"L7 p700")
-		export target="L7 p700"
+	"p700")
+		export target="p700"
 		export defconfig="cyanogenmod_u0_defconfig"
 		break;;
-	"L7 p705")
-		export target="L7 p705"
+	"p705")
+		export target="p705"
 		export defconfig="cyanogenmod_u0_nonfc_defconfig"
 		break;;
 	"L1II")
 		export target="L1II"
 		export defconfig="cyanogenmod_v1_defconfig"
 		break;;
-	"L3II single")
-		export target="L3II single"
+	"vee3")
+		export target="vee3"
 		export defconfig="cyanogenmod_vee3_defconfig"
 		break;;
-	"L3II dual")
-		export target="L3II dual"
+	"vee3ds")
+		export target="vee3ds"
 		export defconfig="cyanogenmod_vee3ds_defconfig"
 		break;;
 
