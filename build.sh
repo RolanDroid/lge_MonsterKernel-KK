@@ -26,7 +26,7 @@ bldblu=${txtbld}$(tput setaf 4) #  blue
 txtrst=$(tput sgr0)             # Reset
 
 
-echo "${bldgrn}Pick variant...${txtrst}"
+echo "${bldblu}Pick variant...${txtrst}"
 select choice in e610 e612 p700 p705 L1II vee3 vee3ds
 do
 case "$choice" in
@@ -62,14 +62,14 @@ case "$choice" in
 esac
 done
 
-echo "${bldgrn}please specify a location, including the '/bin/arm-eabi-' at the end ${txtrst}"
+echo "${bldblu}please specify a location, including the '/bin/arm-eabi-' at the end ${txtrst}"
 read compiler
 
 cd $location
 export ARCH=arm
 export CROSS_COMPILE=$compiler
 if [ -z "$clean" ]; then
-    read -p "${bldgrn}do make clean mrproper?(y/n)${txtrst}" clean
+    read -p "${bldblu}do make clean mrproper?(y/n)${txtrst}" clean
 fi # [ -z "$clean" ]
 case "$clean" in
     y|Y ) echo "${bldblu}cleaning...${txtrst}"; make clean mrproper;;
@@ -115,10 +115,10 @@ if [ -f arch/arm/boot/zImage ]; then
     rm -f *.zip
     zip -r $zipfile * -x *kernel/.gitignore*
 
-    echo "${bldgrn}zip saved to zip-creator/$zipfile ${txtrst}"
+    echo "${bldblu}zip saved to zip-creator/$zipfile ${txtrst}"
 
 else # [ -f arch/arm/boot/zImage ]
-    echo "${bldgrn} the build failed so a zip won't be created ${txtrst}"
+    echo "${bldblu} the build failed so a zip won't be created ${txtrst}"
 fi # [ -f arch/arm/boot/zImage ]
 
 END=$(date +%s)
