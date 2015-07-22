@@ -1,365 +1,130 @@
 #!/bin/bash
-# Base by cybojenix <anthonydking@gmail.com>
-# ReWriten by Caio Oliveira aka Caio99BR <Caiooliveirafarias0@gmail.com>
-# RolanDroid editor for MonsterKernel
-# Rashed for the base of zip making
-# And the internet for filling in else where
 
-# You need to download https://github.com/TeamVee/android_prebuilt_toolchains
-# Clone in the same folder as the kernel
+# Written by cybojenix <anthonydking@gmail.com>
+# Edited by Aidas Lukošius - aidasaidas75 <aidaslukosius75@yahoo.com>
+# Edited by RolanDroid 
+# credits to Rashed for the base of zip making
+# credits to the internet for filling in else where
 
-# Clean - Start
+echo "this is an open source script, feel free to use and share it"
 
-cleanzip() {
-rm -rf zip-creator/*.zip
-rm -rf zip-creator/zImage
-rm -rf zip-creator/system/lib/modules/*.ko
-cleanzipcheck="Done"
-zippackagecheck=""
-adbcopycheck=""
-}
-
-cleankernel() {
-make clean mrproper &> /dev/null
-cleankernelcheck="Done"
-buildprocesscheck=""
-target=""
-serie=""
-variant=""
-maindevicecheck=""
-}
-
-# Clean - End
-
-# Main Process - Start
-
-maindevice() {
-echo "1) L1 II Single/Dual/Tri"
-echo "2) L3 II Single"
-echo "3) L3 II Dual"
-echo "4) L5 NFC"
-echo "5) L5 NoNFC"
-echo "6) L7 NFC"
-echo "7) L7 NoNFC"
-read -p "Choice: " -n 1 -s choice
-case "$choice" in
-	1 ) target="L1II-"; variant="SDT"; echo "$choice - $target$variant"; make cyanogenmod_v1_defconfig &> /dev/null; maindevicecheck="On";;
-	2 ) target="L3II-"; variant="Single"; echo "$choice - $target$variant"; make cyanogenmod_vee3_defconfig &> /dev/null; maindevicecheck="On";;
-	3 ) target="L3II-"; variant="Dual"; echo "$choice - $target$variant"; make cyanogenmod_vee3ds_defconfig &> /dev/null; maindevicecheck="On";;
-	4 ) target="L5-"; variant="Single"; echo "$choice - $target$variant"; make cyanogenmod_m4_defconfig &> /dev/null; maindevicecheck="On";;
-	5 ) target="L5NoNFC-"; variant="Single"; echo "$choice - $target$variant"; make cyanogenmod_m4_nonfc_defconfig &> /dev/null; maindevicecheck="On";;
-	6 ) target="L7-"; variant="Single"; echo "$choice - $target$variant"; make cyanogenmod_u0_defconfig &> /dev/null; maindevicecheck="On";;
-	7 ) target="L7NoNFC-"; variant="Single"; echo "$choice - $target$variant"; make cyanogenmod_u0_nonfc_defconfig &> /dev/null; maindevicecheck="On";;
-	* ) echo "$choice - This option is not valid"; sleep 2;;
-esac
-}
-
-maintoolchain() {
-if [ -d ../android_prebuilt_toolchains ]; then
-	echo "1) 4.7 Google GCC"
-	echo "2) 4.8 Google GCC"
-	echo "3) 4.6.4 Linaro GCC"
-	echo "3) 4.7.4 Linaro GCC"
-	echo "3) 4.8.4 Linaro GCC"
-	echo "3) 4.9.3 Linaro GCC"
-	read -p "Choice: " -n 1 -s toolchain
-	case "$toolchain" in
-		1 ) export CROSS_COMPILE="../toolchains/arm-eabi-4.7/bin/arm-eabi-";;
-		2 ) export CROSS_COMPILE="../toolchains/arm-eabi-4.8/bin/arm-eabi-";;
-		3 ) export CROSS_COMPILE="../toolchains/arm-unknown-linux-gnueabi-linaro_4.6.4-2013.05/bin/arm-unknown-linux-gnueabi-";;
-		4 ) export CROSS_COMPILE="../toolchains/arm-unknown-linux-gnueabi-linaro_4.7.4-2013.12/bin/arm-unknown-linux-gnueabi-";;
-		5 ) export CROSS_COMPILE="../toolchains/arm-linux-gnueabi-linaro_4.8.4-2014.11/bin/arm-linux-gnueabi-";;
-		6 ) export CROSS_COMPILE="../toolchains/arm-cortex-linux-gnueabi-linaro_4.9.3-2015.03/bin/arm-cortex-linux-gnueabi-";;
-		* ) echo "$toolchain - This option is not valid"; sleep 2;;
-	esac
-else
-	echo "Script says: You don't have TeamVee Prebuilt Toolchains"
-	echo ""
-	echo "Script says: Please specify a location"
-	echo "Script says: and the prefix of the chosen toolchain at the end"
-	echo "RolanDroid says: GCC 4.8 ex. ../arm-eabi-4.8/bin/arm-eabi-"
-	read -p "Place: " CROSS_COMPILE
-fi
-}
-
-# Main Process - End
-
-# Build Process - Start
-
-buildprocess() {
-START=$(date +"%s")
-make -j4
-END=$(date +"%s")
-BUILDTIME=$(($END - $START))
-if [ -f arch/arm/boot/zImage ]; then
-	buildprocesscheck="Done"
-	cleankernelcheck=""
-else
-	buildprocesscheck="Something is wrong, contact Dev!"
-fi
-}
-
-zippackage() {
-if [ "$variant" == "Dual" ]; then
-	todual
-fi
-
-if [ "$target" == "L1II-" ]; then
-	tol1ii
-fi
-
-if [ "$target" == "L3II-" ]; then
-	tol3ii
-fi
-
-if [ "$target" == "L7-" ]; then
-	tol7
-fi
-
-if [ "$target" == "L7NoNFC-" ]; then
-	tol7
-fi
-
-cp arch/arm/boot/zImage zip-creator
-find . -name *.ko | xargs cp -a --target-directory=zip-creator/system/lib/modules/ &> /dev/null
-
-zipfile="$customkernel-$target$variant.zip"
-
-cd zip-creator
-zip -r $zipfile * -x */.gitignore* &> /dev/null
-cd ..
-
-if [ "$target" == "L7NoNFC-" ]; then
-	ofl7
-fi
-
-if [ "$target" == "L7-" ]; then
-	ofl7
-fi
-
-if [ "$target" == "L3II-" ]; then
-	ofl3ii
-fi
-
-if [ "$target" == "L1II-" ]; then
-	ofl1ii
-fi
-
-if [ "$variant" == "Dual" ]; then
-	tosingle
-fi
-zippackagecheck="Done"
-cleanzipcheck=""
-}
-
-todual() {
-sed 's/Single/Dual/' zip-creator/META-INF/com/google/android/updater-script > zip-creator/META-INF/com/google/android/updater-script-temp
-rm zip-creator/META-INF/com/google/android/updater-script
-mv zip-creator/META-INF/com/google/android/updater-script-temp zip-creator/META-INF/com/google/android/updater-script
-}
-
-tosingle() {
-sed 's/Dual/Single/' zip-creator/META-INF/com/google/android/updater-script > zip-creator/META-INF/com/google/android/updater-script-temp
-rm zip-creator/META-INF/com/google/android/updater-script
-mv zip-creator/META-INF/com/google/android/updater-script-temp zip-creator/META-INF/com/google/android/updater-script
-}
-
-tol1ii() {
-sed 's/m4/vee3/' zip-creator/tools/kernel_flash.sh > zip-creator/tools/kernel_flash-temp.sh
-rm zip-creator/tools/kernel_flash.sh
-mv zip-creator/tools/kernel_flash-temp.sh zip-creator/tools/kernel_flash.sh
-sed 's/14/15/' zip-creator/tools/kernel_flash.sh > zip-creator/tools/kernel_flash-temp.sh
-rm zip-creator/tools/kernel_flash.sh
-mv zip-creator/tools/kernel_flash-temp.sh zip-creator/tools/kernel_flash.sh
-sed 's/L5/L1 II/' zip-creator/META-INF/com/google/android/updater-script > zip-creator/META-INF/com/google/android/updater-script-temp
-rm zip-creator/META-INF/com/google/android/updater-script
-mv zip-creator/META-INF/com/google/android/updater-script-temp zip-creator/META-INF/com/google/android/updater-script
-
-}
-
-ofl1ii() {
-sed 's/vee3/m4/' zip-creator/tools/kernel_flash.sh > zip-creator/tools/kernel_flash-temp.sh
-rm zip-creator/tools/kernel_flash.sh
-mv zip-creator/tools/kernel_flash-temp.sh zip-creator/tools/kernel_flash.sh
-sed 's/15/14/' zip-creator/tools/kernel_flash.sh > zip-creator/tools/kernel_flash-temp.sh
-rm zip-creator/tools/kernel_flash.sh
-mv zip-creator/tools/kernel_flash-temp.sh zip-creator/tools/kernel_flash.sh
-sed 's/L1 II/L5/' zip-creator/META-INF/com/google/android/updater-script > zip-creator/META-INF/com/google/android/updater-script-temp
-rm zip-creator/META-INF/com/google/android/updater-script
-mv zip-creator/META-INF/com/google/android/updater-script-temp zip-creator/META-INF/com/google/android/updater-script
-}
-
-tol3ii() {
-sed 's/m4/vee3/' zip-creator/tools/kernel_flash.sh > zip-creator/tools/kernel_flash-temp.sh
-rm zip-creator/tools/kernel_flash.sh
-mv zip-creator/tools/kernel_flash-temp.sh zip-creator/tools/kernel_flash.sh
-sed 's/14/15/' zip-creator/tools/kernel_flash.sh > zip-creator/tools/kernel_flash-temp.sh
-rm zip-creator/tools/kernel_flash.sh
-mv zip-creator/tools/kernel_flash-temp.sh zip-creator/tools/kernel_flash.sh
-sed 's/L5/L3 II/' zip-creator/META-INF/com/google/android/updater-script > zip-creator/META-INF/com/google/android/updater-script-temp
-rm zip-creator/META-INF/com/google/android/updater-script
-mv zip-creator/META-INF/com/google/android/updater-script-temp zip-creator/META-INF/com/google/android/updater-script
-
-}
-
-ofl3ii() {
-sed 's/vee3/m4/' zip-creator/tools/kernel_flash.sh > zip-creator/tools/kernel_flash-temp.sh
-rm zip-creator/tools/kernel_flash.sh
-mv zip-creator/tools/kernel_flash-temp.sh zip-creator/tools/kernel_flash.sh
-sed 's/15/14/' zip-creator/tools/kernel_flash.sh > zip-creator/tools/kernel_flash-temp.sh
-rm zip-creator/tools/kernel_flash.sh
-mv zip-creator/tools/kernel_flash-temp.sh zip-creator/tools/kernel_flash.sh
-sed 's/L3 II/L5/' zip-creator/META-INF/com/google/android/updater-script > zip-creator/META-INF/com/google/android/updater-script-temp
-rm zip-creator/META-INF/com/google/android/updater-script
-mv zip-creator/META-INF/com/google/android/updater-script-temp zip-creator/META-INF/com/google/android/updater-script
-}
-
-tol7() {
-sed 's/m4/u0/' zip-creator/tools/kernel_flash.sh > zip-creator/tools/kernel_flash-temp.sh
-rm zip-creator/tools/kernel_flash.sh
-mv zip-creator/tools/kernel_flash-temp.sh zip-creator/tools/kernel_flash.sh
-sed 's/L5/L7/' zip-creator/META-INF/com/google/android/updater-script > zip-creator/META-INF/com/google/android/updater-script-temp
-rm zip-creator/META-INF/com/google/android/updater-script
-mv zip-creator/META-INF/com/google/android/updater-script-temp zip-creator/META-INF/com/google/android/updater-script
-}
-
-ofl7() {
-sed 's/u0/m4/' zip-creator/tools/kernel_flash.sh > zip-creator/tools/kernel_flash-temp.sh
-rm zip-creator/tools/kernel_flash.sh
-mv zip-creator/tools/kernel_flash-temp.sh zip-creator/tools/kernel_flash.sh
-sed 's/L7/L5/' zip-creator/META-INF/com/google/android/updater-script > zip-creator/META-INF/com/google/android/updater-script-temp
-rm zip-creator/META-INF/com/google/android/updater-script
-mv zip-creator/META-INF/com/google/android/updater-script-temp zip-creator/META-INF/com/google/android/updater-script
-}
-
-# Build Process - End
-
-# ADB - Start
-
-adbcopy() {
-echo "Script says: You want to copy to Internal or External Card?"
-echo "i) For Internal"
-echo "e) For External"
-read -p "Choice: " -n 1 -s adbcoping
-case "$adbcoping" in
-	i ) echo "Coping to Internal Card..."; adb shell rm -rf /storage/sdcard0/$zipfile; adb push zip-creator/$zipfile /storage/sdcard0/$zipfile &> /dev/null; adbcopycheck="Done";;
-	e ) echo "Coping to External Card..."; adb shell rm -rf /storage/sdcard1/$zipfile; adb push zip-creator/$zipfile /storage/sdcard1/$zipfile &> /dev/null; adbcopycheck="Done";;
-	* ) echo "$adbcoping - This option is not valid"; sleep 2;;
-esac
-}
-
-# ADB - End
-
-# Menu - Start
-
-customkernel=MonsterKernel
+# Vars
 export ARCH=arm
+export SUBARCH=arm
+export KBUILD_BUILD_USER=RolanDroid
+export KBUILD_BUILD_HOST=
+kernel="MonsterKernel"
+rel="v11"
+daytime=$(date +%d"-"%m"-"%Y"_"%H"-"%M)
+location=.
 
-buildsh() {
-kernelversion=`cat Makefile | grep VERSION | cut -c 11- | head -1`
-kernelpatchlevel=`cat Makefile | grep PATCHLEVEL | cut -c 14- | head -1`
-kernelsublevel=`cat Makefile | grep SUBLEVEL | cut -c 12- | head -1`
-kernelname=`cat Makefile | grep NAME | cut -c 8- | head -1`
-clear
-echo "RolanDroid says: Simple $customkernel Build Script."
-echo "This is an open source script, feel free to use, edit and share it."
-echo "Linux Kernel $kernelversion.$kernelpatchlevel.$kernelsublevel - $kernelname"
-echo
-echo "Clean:"
-echo "1) Last Zip Package ($cleanzipcheck)"
-echo "2) Kernel ($cleankernelcheck)"
-echo
-echo "Main Process:"
-echo "3) Device Choice ($target$variant)"
-echo "4) Toolchain Choice ($CROSS_COMPILE)"
-echo
-echo "Build Process:"
-if ! [ "$maindevicecheck" == "" ]; then
-	if ! [ "$CROSS_COMPILE" == "" ]; then
-		echo "5) Build Kernel ($buildprocesscheck)"
-	else
-		echo "Use "4" first."
-	fi
-else
-	echo "Use "3" first."
-fi
-if [ -f arch/arm/boot/zImage ]; then
-	echo "6) Build Zip Package ($zippackagecheck)"
-fi
-if [ -f zip-creator/*.zip ]; then
-	echo
-	echo "7) Copy to device - Via Adb ($adbcopycheck)"
-fi
-if [ "$adbcopycheck" == "Done" ]; then
-	echo
-	echo "8) Reboot device to recovery"
-fi
-echo
-if ! [ "$BUILDTIME" == "" ]; then
-	echo -e "\033[32mBuild Time: $(($BUILDTIME / 60)) minutes and $(($BUILDTIME % 60)) seconds.\033[0m"
-	echo
-fi
-echo "q) Quit"
-read -n 1 -p "Choice: " -s x
-case $x in
-	1) echo "$x - Cleaning Zips..."; cleanzip; buildsh;;
-	2) echo "$x - Cleaning Kernel..."; cleankernel; buildsh;;
-	3) echo "$x - Device choice"; maindevice; buildsh;;
-	4) echo "$x - Toolchain choice"; maintoolchain; buildsh;;
-	5) if [ -f .config ]; then
-		echo "$x - Building Kernel..."; buildprocess; buildsh
-	else
-		echo "$x - This option is not valid"; sleep 2; buildsh
-	fi;;
-	6) if [ -f arch/arm/boot/zImage ]; then
-		echo "$x - Ziping Kernel..."; zippackage; buildsh
-	else
-		echo "$x - This option is not valid"; sleep 2; buildsh
-	fi;;
-	7) if [ -f zip-creator/*.zip ]; then
-		echo "$x - Coping Kernel..."; adbcopy; buildsh
-	else
-		echo "$x - This option is not valid"; sleep 2; buildsh
-	fi;;
-	8) if [ "$adbcopycheck" == "Done" ]; then
-		echo "$x - Rebooting $target$variant..."; adb reboot recovery; buildsh
-	else
-		echo "$x - This option is not valid"; sleep 2; buildsh
-	fi;;
-	q) echo "Ok, Bye!"; zippackagecheck="";;
-	*) echo "$x - This option is not valid"; sleep 2; buildsh;;
+# Colorize and add text parameters
+grn=$(tput setaf 2)             #  Green
+txtbld=$(tput bold)             # Bold
+bldgrn=${txtbld}$(tput setaf 2) #  green
+bldblu=${txtbld}$(tput setaf 4) #  blue
+txtrst=$(tput sgr0)             # Reset
+
+
+echo "${bldgrn}Pick variant...${txtrst}"
+select choice in e610 e612 p700 p705 L1II vee3 vee3ds
+do
+case "$choice" in
+	"L5 e610")
+		export target="L5 e610"
+		export defconfig="cyanogenmod_m4_defconfig"
+		break;;
+	"L5 e612")
+		export target="L5 e612"
+		export defconfig="cyanogenmod_m4_nonfc_defconfig"
+		break;;
+	"L7 p700")
+		export target="L7 p700"
+		export defconfig="cyanogenmod_u0_defconfig"
+		break;;
+	"L7 p705")
+		export target="L7 p705"
+		export defconfig="cyanogenmod_u0_nonfc_defconfig"
+		break;;
+	"L1II")
+		export target="L1II"
+		export defconfig="cyanogenmod_v1_defconfig"
+		break;;
+	"L3II single")
+		export target="L3II single"
+		export defconfig="cyanogenmod_vee3_defconfig"
+		break;;
+	"L3II dual")
+		export target="L3II dual"
+		export defconfig="cyanogenmod_vee3ds_defconfig"
+		break;;
+
 esac
-}
+done
 
-# Menu - End
+echo "${bldgrn}please specify a location, including the '/bin/arm-eabi-' at the end ${txtrst}"
+read compiler
 
-# The core of script is here!
+cd $location
+export ARCH=arm
+export CROSS_COMPILE=$compiler
+if [ -z "$clean" ]; then
+    read -p "${bldgrn}do make clean mrproper?(y/n)${txtrst}" clean
+fi # [ -z "$clean" ]
+case "$clean" in
+    y|Y ) echo "${bldblu}cleaning...${txtrst}"; make clean mrproper;;
+    n|N ) echo "${bldblu}continuing...${txtrst}";;
+    * ) echo "${bldgrn}invalid option${txtrst}"; sleep 2 ; build.sh;;
+esac
 
-if ! [ -e build.sh ]; then
-	echo
-	echo "Ensure you run this file from the SAME folder as where it was,"
-	echo "otherwise the script will have problems running the commands."
-	echo "After you 'cd' to the correct folder, start the build script"
-	echo "with the ./build.sh command, NOT with any other command!"
-	echo; sleep 3
-else
-	if [ -f zip-creator/*.zip ]; then
-		cleanzipcheck=""
+echo "${bldgrn}now building the kernel${txtrst}"
+
+START=$(date +%s)
+
+make $defconfig
+
+	# Check cpu's
+	NR_CPUS=$(grep -c ^processor /proc/cpuinfo)
+
+	if [ "$NR_CPUS" -le "2" ]; then
+		NR_CPUS=4;
+		echo "Building kernel with 4 CPU threads";
 	else
-		cleanzipcheck="Done"
-	fi
+		echo "Building kernel with $NR_CPUS CPU threads";
+	fi;
 
-	if [ -f .config ]; then
-		cleankernelcheck=""
-	else
-		cleankernelcheck="Done"
-	fi
+make -j ${NR_CPUS}
 
-	if [ -f arch/arm/boot/zImage ]; then
-		buildprocesscheck="Done"
-	else
-		buildprocesscheck=""
-	fi
+## the zip creation
+if [ -f arch/arm/boot/zImage ]; then
 
-	buildsh
-fi
+    rm -f zip-creator/kernel/zImage
+    rm -rf zip-creator/system/
+
+    # changed antdking "clean up mkdir commands" 04/02/13
+    mkdir -p zip-creator/system/lib/modules
+
+    cp arch/arm/boot/zImage zip-creator/kernel
+    # changed antdking "now copy all created modules" 04/02/13
+    # modules
+    # (if you get issues with copying wireless drivers then it's your own fault for not cleaning)
+
+    find . -name *.ko | xargs cp -a --target-directory=zip-creator/system/lib/modules/
+    zipfile="$kernel"-kernel_"$target"-"$rel".zip"
+    cd zip-creator
+    rm -f *.zip
+    zip -r $zipfile * -x *kernel/.gitignore*
+
+    echo "${bldgrn}zip saved to zip-creator/$zipfile ${txtrst}"
+
+else # [ -f arch/arm/boot/zImage ]
+    echo "${bldgrn} the build failed so a zip won't be created ${txtrst}"
+fi # [ -f arch/arm/boot/zImage ]
+
+END=$(date +%s)
+BUILDTIME=$((END - START))
+B_MIN=$((BUILDTIME / 60))
+B_SEC=$((BUILDTIME - E_MIN * 60))
+echo -ne "\033[32mBuildtime: "
+[ $B_MIN != 0 ] && echo -ne "$B_MIN min(s) "
+echo -e "$B_SEC sec(s)\033[0m"
