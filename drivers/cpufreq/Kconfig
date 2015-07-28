@@ -88,6 +88,20 @@ config CPU_FREQ_DEFAULT_GOV_ONDEMAND
 	  governor. If unsure have a look at the help section of the
 	  driver. Fallback governor will be the performance governor.
 
+config CPU_FREQ_DEFAULT_GOV_ONDEMANDX
+	bool "ondemandX"
+	select CPU_FREQ_GOV_ONDEMANDX
+	select CPU_FREQ_GOV_PERFORMANCE
+	help
+	  Use the CPUFreq governor 'ondemand' as default. This allows
+	  you to get a full dynamic frequency capable system by simply
+	  loading your cpufreq low-level hardware driver.
+	  Be aware that not all cpufreq drivers support the ondemand
+	  governor. If unsure have a look at the help section of the
+	  driver. Fallback governor will be the performance governor.
+	  OndemandX has built in sleep profile, but not working Sysfs
+	  interface.
+
 config CPU_FREQ_DEFAULT_GOV_CONSERVATIVE
 	bool "conservative"
 	select CPU_FREQ_GOV_CONSERVATIVE
@@ -143,6 +157,9 @@ config CPU_FREQ_DEFAULT_GOV_SMARTMAX
 	help
 	Use the CPUFreq governor 'smartmax' as default
 
+config CPU_FREQ_DEFAULT_GOV_PEGASUSQ
+	bool "pegasusq"
+	select CPU_FREQ_GOV_PEGASUSQ
 
 config CPU_FREQ_DEFAULT_GOV_SMARTASSH3
 	bool "SmartassH3"
@@ -210,6 +227,24 @@ config CPU_FREQ_GOV_ONDEMAND
 	  The support for this governor depends on CPU capability to
 	  do fast frequency switching (i.e, very low latency frequency
 	  transitions). 
+
+	  To compile this driver as a module, choose M here: the
+	  module will be called cpufreq_ondemand.
+
+	  For details, take a look at linux/Documentation/cpu-freq.
+
+	  If in doubt, say N.
+
+config CPU_FREQ_GOV_ONDEMANDX
+	tristate "'ondemandx' cpufreq policy governor"
+	select CPU_FREQ_TABLE
+	help
+	  'ondemandx' - This driver adds a dynamic cpufreq policy governor.
+	  The governor does a periodic polling and
+	  changes frequency based on the CPU utilization.
+	  The support for this governor depends on CPU capability to
+	  do fast frequency switching (i.e, very low latency frequency
+	  transitions).
 
 	  To compile this driver as a module, choose M here: the
 	  module will be called cpufreq_ondemand.
@@ -342,6 +377,9 @@ config CPU_FREQ_GOV_INTELLIDEMAND2
 
           If in doubt, say N.
 
+config CPU_FREQ_GOV_PEGASUSQ
+	tristate "'pegasusq' cpufreq policy governor"
+
 config CPU_FREQ_GOV_SAVAGEDZEN
 	tristate "'savagedzen' cpufreq governor"
 	depends on CPU_FREQ
@@ -349,15 +387,12 @@ config CPU_FREQ_GOV_SAVAGEDZEN
 	'Savaged-Zen' - a "smartass" based governor
 	If in doubt, say N.
 
-	
-
 config CPU_FREQ_GOV_DARKSIDE
 	tristate "'darkside' cpufreq governor"
 	depends on CPU_FREQ
 	help
 	'darkside' - a "slightly more aggresive smart" optimized governor!
 	If in doubt, say N.
-
 
 config CPU_FREQ_GOV_SMARTASSH3
   tristate "'SmartassH3' cpufreq governor"
@@ -367,7 +402,21 @@ config CPU_FREQ_GOV_SMARTASSH3
 
     If in doubt, say N.
 
+config CPU_FREQ_GOV_LULZACTIVE
+	tristate "'lulzactive' cpufreq governor"
+	depends on CPU_FREQ
+	help
+	  'lulzactive' - a new interactive governor by Tegrak!
+	  For more information please visit:
+	  http://tegrak2x.blogspot.com/2011/11/lulzactive-governor-v2.html
 
+	  If in doubt, say N.
+
+config CPU_FREQ_GOV_LULZACTIVEQ
+        tristate "'lulzactiveq' cpufreq governor"
+        depends on CPU_FREQ
+        help
+          'lulzactiveq' - hotplug mechanism added in lulzactive
 
 
 menu "x86 CPU frequency scaling drivers"
