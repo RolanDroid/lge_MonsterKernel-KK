@@ -14,7 +14,7 @@ export SUBARCH=arm
 export KBUILD_BUILD_USER=RolanDroid
 export KBUILD_BUILD_HOST=
 kernel="MonsterKernel"
-rel="v11"
+rel="v12"
 daytime=$(date +%d"-"%m"-"%Y"_"%H"-"%M)
 location=.
 
@@ -26,7 +26,7 @@ bldblu=${txtbld}$(tput setaf 4) #  blue
 txtrst=$(tput sgr0)             # Reset
 
 
-echo "${bldblu}Pick variant...${txtrst}"
+echo "${bldblu}choose device...${txtrst}"
 select choice in e610 e612 p700 p705 L1II vee3 vee3ds
 do
 case "$choice" in
@@ -62,20 +62,12 @@ case "$choice" in
 esac
 done
 
-echo "${bldblu}please specify a location, including the '/bin/arm-eabi-' at the end ${txtrst}"
+echo "${bldblu}please specify a location of the toolchains'${txtrst}"
 read compiler
 
 cd $location
 export ARCH=arm
 export CROSS_COMPILE=$compiler
-if [ -z "$clean" ]; then
-    read -p "${bldblu}do make clean mrproper?(y/n)${txtrst}" clean
-fi # [ -z "$clean" ]
-case "$clean" in
-    y|Y ) echo "${bldblu}cleaning...${txtrst}"; make clean mrproper;;
-    n|N ) echo "${bldblu}continuing...${txtrst}";;
-    * ) echo "${bldgrn}invalid option${txtrst}"; sleep 2 ; build.sh;;
-esac
 
 echo "${bldgrn}now building the kernel${txtrst}"
 
@@ -83,17 +75,7 @@ START=$(date +%s)
 
 make $defconfig
 
-	# Check cpu's
-	NR_CPUS=$(grep -c ^processor /proc/cpuinfo)
-
-	if [ "$NR_CPUS" -le "2" ]; then
-		NR_CPUS=4;
-		echo "Building kernel with 4 CPU threads";
-	else
-		echo "Building kernel with $NR_CPUS CPU threads";
-	fi;
-
-make -j ${NR_CPUS}
+make -j4
 
 ## the zip creation
 if [ -f arch/arm/boot/zImage ]; then
@@ -110,7 +92,8 @@ if [ -f arch/arm/boot/zImage ]; then
     # (if you get issues with copying wireless drivers then it's your own fault for not cleaning)
 
     find . -name *.ko | xargs cp -a --target-directory=zip-creator/system/lib/modules/
-    zipfile="$kernel"-kernel_"$target"-"$rel".zip"
+
+    zipfile="$kernel"-kernel_"$target"-"$rel".zip
     cd zip-creator
     rm -f *.zip
     zip -r $zipfile * -x *kernel/.gitignore*
@@ -118,7 +101,7 @@ if [ -f arch/arm/boot/zImage ]; then
     echo "${bldblu}zip saved to zip-creator/$zipfile ${txtrst}"
 
 else # [ -f arch/arm/boot/zImage ]
-    echo "${bldblu} the build failed so a zip won't be created ${txtrst}"
+    echo "${bldred} the build failed so a zip won't be created ${txtrst}"
 fi # [ -f arch/arm/boot/zImage ]
 
 END=$(date +%s)
