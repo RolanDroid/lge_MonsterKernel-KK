@@ -8,16 +8,6 @@
 
 echo "this is an open source script, feel free to use and share it"
 
-# Vars
-export ARCH=arm
-export SUBARCH=arm
-export KBUILD_BUILD_USER=RolanDroid
-export KBUILD_BUILD_HOST=
-kernel="MonsterKernel"
-rel="v13"
-daytime=$(date +%d"-"%m"-"%Y"_"%H"-"%M)
-location=.
-
 # Colorize and add text parameters
 grn=$(tput setaf 2)             #  Green
 txtbld=$(tput bold)             # Bold
@@ -25,8 +15,7 @@ bldgrn=${txtbld}$(tput setaf 2) #  green
 bldblu=${txtbld}$(tput setaf 4) #  blue
 txtrst=$(tput sgr0)             # Reset
 
-
-echo "${bldblu}choose device...${txtrst}"
+echo "${bldgrn}choose device...${txtrst}"
 select choice in e610 e612 p700 p705 L1II vee3 vee3ds
 do
 case "$choice" in
@@ -76,33 +65,6 @@ START=$(date +%s)
 make $defconfig
 
 make -j4
-
-## the zip creation
-if [ -f arch/arm/boot/zImage ]; then
-
-    rm -f zip-creator/kernel/zImage
-    rm -rf zip-creator/system/
-
-    # changed antdking "clean up mkdir commands" 04/02/13
-    mkdir -p zip-creator/system/lib/modules
-
-    cp arch/arm/boot/zImage zip-creator/kernel
-    # changed antdking "now copy all created modules" 04/02/13
-    # modules
-    # (if you get issues with copying wireless drivers then it's your own fault for not cleaning)
-
-    find . -name *.ko | xargs cp -a --target-directory=zip-creator/system/lib/modules/
-
-    zipfile="$kernel"-kernel_"$target"-"$rel".zip
-    cd zip-creator
-    rm -f *.zip
-    zip -r $zipfile * -x *kernel/.gitignore*
-
-    echo "${bldblu}zip saved to zip-creator/$zipfile ${txtrst}"
-
-else # [ -f arch/arm/boot/zImage ]
-    echo "${bldred} the build failed so a zip won't be created ${txtrst}"
-fi # [ -f arch/arm/boot/zImage ]
 
 END=$(date +%s)
 BUILDTIME=$((END - START))
