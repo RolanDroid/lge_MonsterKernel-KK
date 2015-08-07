@@ -1,12 +1,15 @@
 #!/bin/bash
 
 # Writen by Caio Oliveira aka Caio99BR <caiooliveirafarias0@gmail.com>
+# Edited by RolanDroid
 
 # How to Use:
-# . patch link.to.commit
+# ./patch link.to.commit
 
 # This script can apply three commits at once.
 # . patch link.to.first.commit link.to.second.commit link.to.third.commit
+
+rm -rf .git/rebase-apply 
 
 # First patch
 curl $1.patch | git am
