@@ -1331,6 +1331,7 @@ CONFIG_UID_STAT=y
 # CONFIG_TSPDRV is not set
 # CONFIG_QSEECOM is not set
 # CONFIG_QFP_FUSE is not set
+CONFIG_GENERIC_BLN=y
 # CONFIG_C2PORT is not set
 
 #
