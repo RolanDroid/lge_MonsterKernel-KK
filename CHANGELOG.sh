@@ -5,9 +5,15 @@
 # how to use?
 # ./CHANGELOG.sh 
 
-echo -e '\E[37;44m'"\033[1mthis is an open source script, feel free to use and share it\033[0m"
+red=$(tput setaf 1) # red
+grn=$(tput setaf 2) # green
+# Bold Colors
+bldred=${txtbld}${red} # red
+bldgrn=${txtbld}${grn} # green
+
+echo "${bldred}this is an open source script, feel free to use and share it${txtbld}"
 
 
-echo -e '\E[37;44m'"\033[1mCHANGELOG OF MonsterKernel...\033[0m"
+echo "${bldgrn}Changelog of MonsterKernel...${txtbld}"
 
 git log --oneline    

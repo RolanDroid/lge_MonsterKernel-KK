@@ -14,7 +14,7 @@ export SUBARCH=arm
 export KBUILD_BUILD_USER=RolanDroid
 export KBUILD_BUILD_HOST=
 kernel="MonsterKernel"
-rel="v13"
+rel="v14"
 daytime=$(date +%d"-"%m"-"%Y"_"%H"-"%M)
 location=.
 
@@ -27,38 +27,49 @@ txtrst=$(tput sgr0)             # Reset
 
 
 echo "${bldblu}choose device...${txtrst}"
-select choice in e610 e612 p700 p705 L1II vee3 vee3ds
+select choice in L5-NFC L5-NoNFC L7-NFC L7-NoNFC L1II L3II L3II-Dual L7II-NFC L7II-Dual L7II-NoNFC
 do
 case "$choice" in
-	"e610")
-		export target="e610"
+	"L5-NFC")
+		export target="L5-NFC"
 		export defconfig="cyanogenmod_m4_defconfig"
 		break;;
-	"e612")
-		export target="e612"
+	"L5-NoNFC")
+		export target="L5-NoNFC"
 		export defconfig="cyanogenmod_m4_nonfc_defconfig"
 		break;;
-	"p700")
-		export target="p700"
+	"L7-NFC")
+		export target="L7-NFC"
 		export defconfig="cyanogenmod_u0_defconfig"
 		break;;
-	"p705")
-		export target="p705"
+	"L7-NoNFC")
+		export target="L7-NoNFC"
 		export defconfig="cyanogenmod_u0_nonfc_defconfig"
 		break;;
 	"L1II")
 		export target="L1II"
 		export defconfig="cyanogenmod_v1_defconfig"
 		break;;
-	"vee3")
-		export target="vee3"
+	"L3II")
+		export target="L3II"
 		export defconfig="cyanogenmod_vee3_defconfig"
 		break;;
-	"vee3ds")
-		export target="vee3ds"
+	"L3II-Dual")
+		export target="L3II-Dual"
 		export defconfig="cyanogenmod_vee3ds_defconfig"
 		break;;
-
+	"L7II-NFC")
+		export target="L7II-NFC"
+		export defconfig="cyanogenmod_vee7_defconfig"
+		break;;
+	"L7II-Dual")
+		export target="L7II-Dual"
+		export defconfig="cyanogenmod_vee7ds_defconfig"
+		break;;
+	"L7-NoNFC")
+		export target="L7-NoNFC"
+		export defconfig="cyanogenmod_vee7_nonfc_defconfig"
+		break;;
 esac
 done
 
