@@ -14,9 +14,7 @@ export SUBARCH=arm
 export KBUILD_BUILD_USER=RolanDroid
 export KBUILD_BUILD_HOST=
 kernel="MonsterKernel"
-rel="v14"
-daytime=$(date +%d"-"%m"-"%Y"_"%H"-"%M)
-location=.
+rel="v16"
 
 # Colorize and add text parameters
 grn=$(tput setaf 2)             #  Green
