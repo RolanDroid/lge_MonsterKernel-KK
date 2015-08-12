@@ -1579,29 +1579,6 @@ config MSM7X27A_OVERCLOCK
 	help
 	  Enable support for non-standard msm7x27A acpuclock frequencies/voltages.
 
-config MSM7X27A_BACONMAKER
-	bool "Enable SoC overclocking to dangerous frequencies"
-	depends on MSM7X27A_OVERCLOCK
-	default n
-	help
-	  Enable support for dangerous msm7x27A acpuclock frequencies/voltages.
-
-config KGSL_GPU_OVERCLOCK
-  	bool "This enables GPU Overclocking"
-	depends on MACH_MSM7X25A_M4 || MACH_MSM7X25A_U0
-  	default n
-  	help
-    	  This enables 350Mhz max on the 3D core and 166Mhz max on the
-    	  2D core.
-
-config KGSL_GPU_BACONMAKER
-  	bool "This enables extreme GPU Overclocking"
-	depends on KGSL_GPU_OVERCLOCK
-  	default n
-  	help
-    	  This enables 400Mhz max on the 3D core and 166Mhz max on the
-    	  2D core.
-
 endif # CPU_FREQ_MSM
 
 config MSM_CPU_AVS
