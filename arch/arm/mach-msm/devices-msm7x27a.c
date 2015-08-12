@@ -913,12 +913,12 @@ static struct kgsl_device_platform_data kgsl_3d0_pdata = {
 			.gpu_freq = 400000000,
 			.bus_freq = 220000000,
 		},
-		#ifdef CONFIG_KGSL_GPU_OVERCLOCK
+		#elif CONFIG_KGSL_GPU_OVERCLOCK
 		{
 			.gpu_freq = 350000000,
 			.bus_freq = 210000000,
 		},
-		#endif
+		#else
 		/* LGE_CHANGE_S [peter.jung@lge.com]
 		    DoU Power consumption */
 		{
