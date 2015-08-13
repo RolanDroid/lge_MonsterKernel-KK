@@ -1,19 +1,23 @@
 #!/bin/bash
 
-# Writen by RolanDroid 
+# Written by RolanDroid 
 
 # how to use?
 # ./CHANGELOG.sh 
 
-red=$(tput setaf 1) # red
-grn=$(tput setaf 2) # green
-# Bold Colors
-bldred=${txtbld}${red} # red
-bldgrn=${txtbld}${grn} # green
+grn=$(tput setaf 2)             #  Green
+txtbld=$(tput bold)             # Bold
+bldgrn=${txtbld}$(tput setaf 2) #  green
+bldblu=${txtbld}$(tput setaf 4) #  blue
+txtrst=$(tput sgr0)
 
-echo "${bldred}this is an open source script, feel free to use and share it${txtbld}"
+echo "${bldgrn}this is an open source script, feel free to use and share it${txtbld}"
 
+echo "${bldblu}Info of MonsterKernel...${txtbld}"
 
-echo "${bldgrn}Changelog of MonsterKernel...${txtbld}"
+echo "${bldgrn}Version=${txtbld}"V16
+
+echo "${bldblu}Changelog of MonsterKernel...${txtbld}"\
+
 
 git log --oneline    
