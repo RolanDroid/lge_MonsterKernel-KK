@@ -911,21 +911,21 @@ static struct kgsl_device_platform_data kgsl_3d0_pdata = {
 		/* LGE_CHANGE_S [peter.jung@lge.com]
 		    DoU Power consumption */
 		{
-			.gpu_freq = 400000000,
-                        .bus_freq = 200000000,
+			.gpu_freq = 355760000,
+                        .bus_freq = 213760000,
 		},
 		/* LGE_CHANGE_E [peter.jung@lge.com] */
 		{
-			.gpu_freq = 350000000,
-			.bus_freq = 175000000,
+			.gpu_freq = 320000000,
+			.bus_freq = 200000000,
 		},
 		{
-			.gpu_freq = 300000000,
-			.bus_freq = 150000000,
+			.gpu_freq = 245760000,
+			.bus_freq = 200000000,
 		},
 		{
-			.gpu_freq = 200000000,
-			.bus_freq = 150000000,
+			.gpu_freq = 192000000,
+			.bus_freq = 160000000,
 		},
 	},
 	.init_level = 0,
