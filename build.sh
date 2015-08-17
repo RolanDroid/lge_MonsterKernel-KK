@@ -289,7 +289,7 @@ zipfile="$customkernel-$target$variant.zip"
 lszip=`ls zip-creator/*.zip 2>/dev/null | wc -l`
 customoutput
 clear
-echo "RolanDroid99BR says: Simple Kernel Build Script."
+echo "RolanDroid says: Simple Kernel Build Script."
 echo "This is an open source script, feel free to use, edit and share it."
 echo "Linux Kernel $kernelversion.$kernelpatchlevel.$kernelsublevel - $kernelname"
 echo
