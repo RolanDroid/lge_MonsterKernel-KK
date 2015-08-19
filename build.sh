@@ -97,7 +97,7 @@ case "$choice" in
 esac
 if ! [ "$errorchoice" == "ON" ]; then
 	echo "$choice - $target$variant"; make $defconfig &> /dev/null | echo "Setting..."; maindevicecheck="ON"
-	zipfile="$customkernel-$target$variant-$daytime.zip"
+	zipfile="$customkernel-$version-$target$variant-$daytime.zip"
 fi
 }
 
@@ -432,9 +432,10 @@ esac
 
 if [ -e build.sh ]; then
 	customkernel=MonsterKernel
+        version=V22
 	export ARCH=arm
 	daytime=$(date +%d""%m""%Y)
-	zipfile="$customkernel-$target$variant-$daytime.zip"
+	zipfile="$customkernel-$version-$target$variant-$daytime.zip"
 
 	if [ -f zip-creator/*.zip ]; then
 		unset cleanzipcheck
