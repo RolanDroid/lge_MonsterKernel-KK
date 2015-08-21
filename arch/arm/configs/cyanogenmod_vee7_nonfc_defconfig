@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm 3.4.104 Kernel Configuration
+# Linux/arm 3.4.108 Kernel Configuration
 #
 CONFIG_ARM=y
 CONFIG_ARM_HAS_SG_CHAIN=y
@@ -121,9 +121,9 @@ CONFIG_RD_GZIP=y
 # CONFIG_RD_XZ is not set
 # CONFIG_RD_LZO is not set
 # CONFIG_CC_OPTIMIZE_FOR_SIZE is not set
-# CONFIG_CC_OPTIMIZE_DEFAULT is not set
+CONFIG_CC_OPTIMIZE_DEFAULT=y
 # CONFIG_CC_OPTIMIZE_ALOT is not set
-CONFIG_CC_OPTIMIZE_FAST=y
+# CONFIG_CC_OPTIMIZE_FAST is not set
 # CONFIG_CCACHE is not set
 CONFIG_LINARO=y
 CONFIG_SYSCTL=y
