@@ -2,7 +2,6 @@
 # Original Live by cybojenix <anthonydking@gmail.com>
 # New Live/Menu by Caio Oliveira aka Caio99BR <caiooliveirafarias0@gmail.com>
 # Colors by Aidas Lukošius aka aidasaidas75 <aidaslukosius75@yahoo.com>
-# Toolchains by Suhail aka skyinfo <sh.skyinfo@gmail.com>
 # Edited by Rolando <rolandosimoncelli8@gmail.com>
 # Rashed for the base of zip making
 # And the internet for filling in else where
@@ -105,24 +104,26 @@ maintoolchain() {
 if [ -d ../android_prebuilt_toolchains ]; then
 	echo "1) 4.7 Google GCC"
 	echo "2) 4.8 Google GCC"
-	echo "3) 4.9.3 Linaro GCC"
+	echo "3) 4.9 Uber GCC"
+	echo "4) 4.9.3 Linaro GCC"
 	unset errortoolchain
 	read -p "Choice: " -n 1 -s toolchain
 	case "$toolchain" in
 		1 ) export CROSS_COMPILE="../android_prebuilt_toolchains/arm-eabi-4.7/bin/arm-eabi-"; ToolchainCompile="GCC 4.7";;
 		2 ) export CROSS_COMPILE="../android_prebuilt_toolchains/arm-eabi-4.8/bin/arm-eabi-"; ToolchainCompile="GCC 4.8";;
-		3 ) export CROSS_COMPILE="../android_prebuilt_toolchains/arm-cortex-linux-gnueabi-linaro_4.9.3-2015.03/bin/arm-cortex-linux-gnueabi-"; ToolchainCompile="Linaro 4.9.3";;
+		3 ) export CROSS_COMPILE="../android_prebuilt_toolchains/uber-arm-eabi-4.9/bin/arm-eabi-"; ToolchainCompile="Uber 4.9";;
+		4 ) export CROSS_COMPILE="../android_prebuilt_toolchains/arm-cortex-linux-gnueabi-linaro_4.9.3-2015.03/bin/arm-cortex-linux-gnueabi-"; ToolchainCompile="Linaro 4.9.3";;
 		* ) echo "$toolchain - This option is not valid"; sleep .5; errortoolchain="ON";;
 	esac
 	if ! [ "$errortoolchain" == "ON" ]; then
 		echo "$ToolchainCompile"
 	fi
 else
-	echo "Script says: You don't have TeamVee Prebuilt Toolchains"
+	echo "Script says: You don't have Prebuilt Toolchains"
 	echo ""
 	echo "Script says: Please specify a location"
 	echo "Script says: and the prefix of the chosen toolchain at the end"
-	echo "Caio99BR says: GCC 4.6 ex. ../arm-eabi-4.6/bin/arm-eabi-"
+	echo "Script says: GCC 4.6 ex. ../arm-eabi-4.6/bin/arm-eabi-"
 	read -p "Place: " CROSS_COMPILE
 fi
 }
