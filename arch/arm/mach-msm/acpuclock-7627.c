@@ -190,7 +190,7 @@ static struct clkctl_acpu_speed pll0_960_pll1_196_pll2_800_pll4_0[] = {
 
 /* 7627a PLL2 @ 800MHz with GSM capable modem */
 static struct clkctl_acpu_speed pll0_960_pll1_245_pll2_1200_pll4_800[] = {
-        { 1, 65536, ACPU_PLL_1, 1, 3,  8192, 3, 1,  49152 },
+	{ 1, 61440, ACPU_PLL_1, 1, 11,  7680, 3, 1,  61440 }, 
 	{ 1, 122880, ACPU_PLL_1, 1, 5,  15360, 3, 2,  61440 },
 	{ 1, 245760, ACPU_PLL_1, 1, 2, 30720, 3, 3,  61440 },
 	{ 1, 300000, ACPU_PLL_2, 2, 3, 37500, 3, 4, 122880 },
@@ -212,7 +212,7 @@ static struct clkctl_acpu_speed pll0_960_pll1_245_pll2_1200_pll4_800[] = {
 
 /* 7627a PLL2 @ 800MHz with CDMA capable modem */
 static struct clkctl_acpu_speed pll0_960_pll1_196_pll2_1200_pll4_800[] = {
-        { 1, 65536, ACPU_PLL_1, 1, 3,  8192, 3, 1,  49152 },
+	{ 1, 61440, ACPU_PLL_1, 1, 11,  7680, 3, 1,  61440 }, 
 	{ 1, 122880, ACPU_PLL_1, 1, 5,  15360, 3, 2,  61440 },
 	{ 1, 245760, ACPU_PLL_1, 1, 2, 30720, 3, 3,  61440 },
 	{ 1, 300000, ACPU_PLL_2, 2, 3, 37500, 3, 4, 122880 },
@@ -234,7 +234,7 @@ static struct clkctl_acpu_speed pll0_960_pll1_196_pll2_1200_pll4_800[] = {
 
 /* 7627aa PLL4 @ 1008MHz with GSM capable modem */
 static struct clkctl_acpu_speed pll0_960_pll1_245_pll2_1200_pll4_1008[] = {
-	{ 1, 65536, ACPU_PLL_1, 1, 3,  8192, 3, 1,  49152 },
+	{ 1, 61440, ACPU_PLL_1, 1, 11,  7680, 3, 1,  61440 }, 
 	{ 1, 98304, ACPU_PLL_1, 1, 1,  12288, 3, 2,  49152 },
 	{ 1, 196608, ACPU_PLL_1, 1, 0, 24576, 3, 3,  98304 },
 	{ 1, 300000, ACPU_PLL_2, 2, 3, 37500, 3, 4, 120000 },
@@ -257,7 +257,7 @@ static struct clkctl_acpu_speed pll0_960_pll1_245_pll2_1200_pll4_1008[] = {
 
 /* 7627aa PLL4 @ 1008MHz with CDMA capable modem */
 static struct clkctl_acpu_speed pll0_960_pll1_196_pll2_1200_pll4_1008[] = {
-	{ 1, 65536, ACPU_PLL_1, 1, 3,  8192, 3, 1,  49152 },
+	{ 1, 61440, ACPU_PLL_1, 1, 11,  7680, 3, 1,  61440 }, 
 	{ 1, 98304, ACPU_PLL_1, 1, 1,  12288, 3, 2,  49152 },
 	{ 1, 196608, ACPU_PLL_1, 1, 0, 24576, 3, 3,  98304 },
 	{ 1, 300000, ACPU_PLL_2, 2, 3, 37500, 3, 4, 120000 },
@@ -280,8 +280,7 @@ static struct clkctl_acpu_speed pll0_960_pll1_196_pll2_1200_pll4_1008[] = {
 
 /* 8625 PLL4 @ 1209MHz with GSM capable modem */
 static struct clkctl_acpu_speed pll0_960_pll1_245_pll2_1200_pll4_1209[] = {
-	{ 0, 19200, ACPU_PLL_TCXO, 0, 0, 2400, 3, 0, 30720 },
-	{ 0, 61440, ACPU_PLL_1, 1, 3,  7680, 3, 0, 61440 },
+	{ 1, 61440, ACPU_PLL_1, 1, 11,  7680, 3, 1,  61440 }, 
 	{ 0, 122880, ACPU_PLL_1, 1, 1,  15360, 3, 1, 61440 },
 	{ 1, 245760, ACPU_PLL_1, 1, 0, 30720, 3, 1, 61440 },
 	{ 0, 300000, ACPU_PLL_2, 2, 3, 37500, 3, 2, 122880 },
@@ -439,7 +438,7 @@ static struct clkctl_acpu_speed pll0_960_pll1_245_pll2_1200_25a[] = {
 
 /* 7627a PLL2 @ 800MHz with GSM capable modem */
 static struct clkctl_acpu_speed pll0_960_pll1_737_pll2_1200_pll4_800[] = {
-        { 1, 65536, ACPU_PLL_1, 1, 3,  8192, 3, 1,  49152 },
+	{ 1, 61440, ACPU_PLL_1, 1, 11,  7680, 3, 1,  61440 }, 
 	{ 1, 122880, ACPU_PLL_1, 1, 5,  15360, 3, 2,  61440 },
 	{ 1, 245760, ACPU_PLL_1, 1, 2, 30720, 3, 3,  61440 },
 	{ 1, 300000, ACPU_PLL_2, 2, 3, 37500, 3, 4, 122880 },
@@ -461,7 +460,7 @@ static struct clkctl_acpu_speed pll0_960_pll1_737_pll2_1200_pll4_800[] = {
 
 /* 7627a PLL2 @ 800MHz with CDMA capable modem */
 static struct clkctl_acpu_speed pll0_960_pll1_589_pll2_1200_pll4_800[] = {
-        { 1, 65536, ACPU_PLL_1, 1, 3,  8192, 3, 1,  49152 },
+	{ 1, 61440, ACPU_PLL_1, 1, 11,  7680, 3, 1,  61440 }, 
 	{ 1, 122880, ACPU_PLL_1, 1, 5,  15360, 3, 2,  61440 },
 	{ 1, 245760, ACPU_PLL_1, 1, 2, 30720, 3, 3,  61440 },
 	{ 1, 300000, ACPU_PLL_2, 2, 3, 37500, 3, 4, 122880 },
@@ -483,7 +482,7 @@ static struct clkctl_acpu_speed pll0_960_pll1_589_pll2_1200_pll4_800[] = {
 
 /* 7627aa PLL4 @ 1008MHz with GSM capable modem */
 static struct clkctl_acpu_speed pll0_960_pll1_737_pll2_1200_pll4_1008[] = {
-	{ 1, 65536, ACPU_PLL_1, 1, 3,  8192, 3, 1,  49152 },
+	{ 1, 61440, ACPU_PLL_1, 1, 11,  7680, 3, 1,  61440 }, 
 	{ 1, 98304, ACPU_PLL_1, 1, 1,  12288, 3, 2,  49152 },
 	{ 1, 196608, ACPU_PLL_1, 1, 0, 24576, 3, 3,  98304 },
 	{ 1, 300000, ACPU_PLL_2, 2, 3, 37500, 3, 4, 120000 },
@@ -506,7 +505,7 @@ static struct clkctl_acpu_speed pll0_960_pll1_737_pll2_1200_pll4_1008[] = {
 
 /* 7627aa PLL4 @ 1008MHz with CDMA capable modem */
 static struct clkctl_acpu_speed pll0_960_pll1_589_pll2_1200_pll4_1008[] = {
-	{ 1, 65536, ACPU_PLL_1, 1, 3,  8192, 3, 1,  49152 },
+	{ 1, 61440, ACPU_PLL_1, 1, 11,  7680, 3, 1,  61440 }, 
 	{ 1, 98304, ACPU_PLL_1, 1, 1,  12288, 3, 2,  49152 },
 	{ 1, 196608, ACPU_PLL_1, 1, 0, 24576, 3, 3,  98304 },
 	{ 1, 300000, ACPU_PLL_2, 2, 3, 37500, 3, 4, 120000 },
