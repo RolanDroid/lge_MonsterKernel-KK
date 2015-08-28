@@ -1,3 +1,5 @@
+[![Alt text](http://i58.tinypic.com/xclvdc.jpg)](http://forum.xda-developers.com/optimus-l3-l5-l7/orig-development/l5-monsterkernel-v1-0-t3127371)
+
 	Linux kernel release 3.x <http://kernel.org/>
 
     Toolchain used for MonsterKernel: https://github.com/RolanDroid/android_prebuilt_toolchains
